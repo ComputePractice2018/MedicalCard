@@ -18,7 +18,7 @@
         "surname": "Фамилия",
         "secondname": "Отчество",
         "phone": "+7-999-999-99-99",
-        "email": "user@domain.ru"
+        "email": "user@domain.ru",
         "adress": "Обнинск, Ленина 69, 442"
     }]
 ```
@@ -33,7 +33,7 @@
         "surname": "Фамилия",
         "secondname": "Отчество",
         "phone": "+7-999-999-99-99",
-        "email": "user@domain.ru"
+        "email": "user@domain.ru",
         "adress": "Обнинск, Ленина 69 "
     }
 ```
@@ -51,8 +51,8 @@
         "surname": "Фамилия",
         "secondname": "Отчество",
         "phone": "+7-999-999-99-99",
-        "email": "user@domain.ru"
-        "adress": "Обнинск, Ленина 69 "
+        "email": "user@domain.ru",
+        "adress": "Обнинск, Ленина 69"
     }
 ```
 
