@@ -1,5 +1,6 @@
 <template>
   <div class="about">
-    <h1>This is an about page</h1>
+    <h1>О программе</h1>
+    <a href="https://github.com/orgs/ComputePractice2018/teams/medicalcard"> Проект на  GitHUB</a>
   </div>
 </template>
