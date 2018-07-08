@@ -3,64 +3,67 @@
 ## Usecasec
 
 1. Как пользователь, я хочу иметь возможность просмотра моей медицинской карты.
-1. Как пользователь, я хочу иметь возможность создавать медицинскую карту.
-1. Как пользователь, я хочу иметь возможность редактирования личные данные карты.(ФИО, адрес, телефон. etc.)
-1. Как пользователь, я хочу иметь возможность удаления своей медицинской карты.
+1. Как пользователь, я хочу иметь возможность создания новых записей о приемах.
+1. Как пользователь, я хочу иметь возможность редактирования записей о приемах.(ФИО врача/медсестры, жалобы, дата приема, etc.)
+1. Как пользователь, я хочу иметь возможность удаления записей о приемах.
 
 ## REST API
 
-### GET /api/medicalcard/contacts
+
+### GET /api/medicalcard/appointment
 
 Ответ: 200 OK
 ```json
-    [{
-        "name": "Имя",
-        "surname": "Фамилия",
-        "secondname": "Отчество",
-        "phone": "+7-999-999-99-99",
-        "email": "user@domain.ru",
-        "adress": "Обнинск, Ленина 69, 442"
+   [{
+        "date": "01.07.2018", 
+        "doc_name": "Смирнов Василий Данилович", 
+        "muse_name": "Прокофьева Вероника Максимовна", 
+        "complaint": "Чихает находясь в помещении с цветами", 
+        "checkup": "Покраснения слизистой", 
+        "diagnosis": "Стоматит", 
+        "treatment": "Изолироватть пациента от аллергена"
+
     }]
 ```
 
-### POST /api/medicalcard/contacts
+### POST /api/medicalcard/appointment
 
 Тело запроса:
 
 ```json
     {
-        "name": "Имя",
-        "surname": "Фамилия",
-        "secondname": "Отчество",
-        "phone": "+7-999-999-99-99",
-        "email": "user@domain.ru",
-        "adress": "Обнинск, Ленина 69 "
+        "date": "01.07.2018", 
+        "doc_name": "Смирнов Василий Данилович", 
+        "muse_name": "Прокофьева Вероника Максимовна", 
+        "complaint": "Чихает находясь в помещении с цветами", 
+        "checkup": "Покраснения слизистой", 
+        "diagnosis": "Стоматит", 
+        "treatment": "Изолироватть пациента от аллергена"
     }
 ```
 
     Ответ: 201 Created
-    Location: /api/medicalcard/mycard/1
+    Location: /api/medicalcard/appointment/1
 
-### PUT /api/medicalcard/contacts
-
+### PUT /api/medicalcard/appointment
 Тело запроса:
 
 ```json
     {
-        "name": "Имя",
-        "surname": "Фамилия",
-        "secondname": "Отчество",
-        "phone": "+7-999-999-99-99",
-        "email": "user@domain.ru",
-        "adress": "Обнинск, Ленина 69"
+        "date": "01.07.2018", 
+        "doc_name": "Смирнов Василий Данилович", 
+        "muse_name": "Прокофьева Вероника Максимовна", 
+        "complaint": "Чихает находясь в помещении с цветами", 
+        "checkup": "Покраснения слизистой", 
+        "diagnosis": "Стоматит", 
+        "treatment": "Изолироватть пациента от аллергена"
     }
 ```
 
     Ответ: 202 Accepted
-    Location: /api/medicalcard/mycard/1
+    Location: /api/medicalcard/appointment/1
 
-### DELETE /api/medicalcard/contacts
+### DELETE /api/medicalcard/appointment
 
 
     Ответ: 204 No Content
-   
