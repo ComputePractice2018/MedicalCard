@@ -1,6 +1,7 @@
 <template>
   <div class="home">
-    <medicalcard title="Медицинская карта"/>
+    <medicalcard title="Медицинская карта пациента ФГБУЗ КБ №8"/>
+
   </div>
 </template>
 
