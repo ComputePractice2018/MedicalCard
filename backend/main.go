@@ -12,7 +12,7 @@ func main() {
 	//b := flag.Int("b", 2, "число 2")
 	//flag.Parse()
 
-	http.HandleFunc("/api/medicalcard/appointment", server.GetAppointments)
+	http.HandleFunc("/api/medicalcard/appointment", server.AppointmentsHandler)
 
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
