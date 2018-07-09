@@ -1,20 +1,18 @@
 package main
 
 import (
-	"flag"
-	"fmt"
+	"log"
+	"net/http"
 
-	"github.com/ComputePractice2018/medicalcard/backend/utils"
+	"github.com/ComputePractice2018/medicalcard/backend/server"
 )
 
 func main() {
-	fmt.Println("Hello, World!")
-	fmt.Printf("Привет, %s", "Мир")
+	//a := flag.Int("a", 1, "число 1")
+	//b := flag.Int("b", 2, "число 2")
+	//flag.Parse()
 
-	a := flag.Int("a", 1, "число 1")
-	b := flag.Int("b", 2, "число 2")
-	flag.Parse()
+	http.HandleFunc("/api/medicalcard/appointment", server.GetAppointments)
 
-	var c = utils.Sum(*a, *b)
-	fmt.Printf("\nСумма = %d", c)
+	log.Fatal(http.ListenAndServe(":8080", nil))
 }
