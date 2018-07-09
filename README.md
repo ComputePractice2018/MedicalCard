@@ -9,7 +9,6 @@
 
 ## REST API
 
-
 ### GET /api/medicalcard/appointment
 
 Ответ: 200 OK
@@ -64,6 +63,5 @@
     Location: /api/medicalcard/appointment/1
 
 ### DELETE /api/medicalcard/appointment
-
 
     Ответ: 204 No Content
