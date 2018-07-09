@@ -2,6 +2,8 @@
   <div class="medicalcard">
     <h1>{{ title }}</h1>
 
+    <h3 v-if="error">Ошибка: {{error}}</h3>
+
   <table cellspacing="15">
    <tr>
      <th>Имя</th>
@@ -38,8 +40,8 @@
     </tr>
     <tr v-for="information in appointment" v-bind:key="information.diagnosis">
       <td>{{ information.date }}</td>
-      <td>{{ information.doc_name }}</td>
-      <td>{{ information.muse_name }}</td>
+      <td>{{ information.docname }}</td>
+      <td>{{ information.musename }}</td>
       <td>{{ information.complaint}}</td>
       <td>{{ information.checkup }}</td>
       <td>{{ information.diagnosis}}</td>
@@ -64,13 +66,15 @@
     Диагноз: <input type="text" v-model="new_appointment.diagnosis">
     Назначенное лечение: <input type="text" v-model="new_appointment.treatment">
   <p><button v-if="edit_index == -1" v-on:click="add_new_appointment">Добавить запись</button></p>
-  <p><button v-if="edit_index > -1" v-on:click="make_new_appointment">Сохранить редактирование</button></p>
+  <p><button v-if="edit_index > -1" v-on:click="end_of_edition">Сохранить редактирование</button></p>
 
   </form>
   </div>
 </template>
 
 <script>
+const axios = require('axios')
+
 export default {
   name: 'medicalcard',
   props: {
@@ -91,31 +95,13 @@ export default {
         }
       ],
       edit_index: -1,
-      appointment: [
-        {
-          'date': '01.07.2018',
-          'doc_name': 'Смирнов Василий Данилович',
-          'muse_name': 'Прокофьева Вероника Максимовна',
-          'complaint': 'Чихает находясь в помещении с цветами',
-          'checkup': 'Покраснения слизистой',
-          'diagnosis': 'Стоматит',
-          'treatment': 'Изолироватть пациента от аллергена'
-        },
-        {
-          'date': '01.07.2018',
-          'doc_name': 'Смирнов Василий Данилович',
-          'muse_name': 'Прокофьева Вероника Максимовна',
-          'complaint': 'Чихает находясь в помещении с цветами',
-          'checkup': 'Покраснения слизистой',
-          'diagnosis': 'Аллергия',
-          'treatment': 'Изолироватть пациента от аллергена'
-        }
-      ],
+      error: '',
+      appointment: [ ],
       new_appointment:
         {
           'date': '',
-          'doc_name': '',
-          'muse_name': '',
+          'docname': '',
+          'musename': '',
           'complaint': '',
           'checkup': '',
           'diagnosis': '',
@@ -123,28 +109,56 @@ export default {
         }
     }
   },
+  mounted: function () {
+    this.get_appointments()
+  },
   methods: {
+    get_appointments: function () {
+      const url = '/api/medicalcard/appointments'
+      axios.get(url).then(response => {
+        this.appointment = response.data
+      }).catch(response => {
+        this.error = response.response.data
+      })
+    },
     add_new_appointment: function () {
-      this.appointment.push(this.new_appointment)
+      const url = '/api/medicalcard/appointments'
+      axios.post(url, this.new_appointment).then(response => {
+        console.log(response)
+        this.appointment.push(this.new_appointment)
+      }).catch(response => {
+        this.error = response.response.data
+      })
     },
     remove_appointment: function (item) {
-      this.appointment.splice(this.appointment.indexOf(item), 1)
+      const url = '/api/medicalcard/appointments' + this.appointment.indexOf(item)
+      axios.delete(url).then(response => {
+        this.appointment = response.data
+      }).catch(response => {
+        this.appointment.splice(this.appointment.indexOf(item), 1)
+      })
     },
     edit_appointment: function (item) {
       this.edit_index = this.appointment.indexOf(item)
       this.new_appointment = this.appointment[this.edit_index]
     },
-    make_new_appointment: function () {
-      this.edit_index = -1
-      this.new_appointment = {
-        'date': '',
-        'doc_name': '',
-        'muse_name': '',
-        'complaint': '',
-        'checkup': '',
-        'diagnosis': '',
-        'treatment': ''
-      }
+    end_of_edition: function () {
+      const url = '/api/medicalcard/appointments' + this.edit_index
+      axios.put(url, this.new_appointment).then(response => {
+        console.log(response)
+        this.edit_index = -1
+        this.new_appointment = {
+          'date': '',
+          'docname': '',
+          'musename': '',
+          'complaint': '',
+          'checkup': '',
+          'diagnosis': '',
+          'treatment': ''
+        }
+      }).catch(response => {
+        this.error = response.response.data
+      })
     }
   }
 }
