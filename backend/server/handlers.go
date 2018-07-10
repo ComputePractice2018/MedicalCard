@@ -9,23 +9,6 @@ import (
 	"github.com/ComputePractice2018/medicalcard/backend/data"
 )
 
-// AppointmentsHandler обрабатывает все запросы к /api/medicalcard/appointment
-func AppointmentsHandler(w http.ResponseWriter, r *http.Request) {
-	if r.Method == "GET" {
-		GetAppointments(w, r)
-		return
-	}
-
-	if r.Method == "POST" {
-		AddAppointment(w, r)
-		return
-	}
-
-	message := fmt.Sprintf("Method %s is not allowed", r.Method)
-	http.Error(w, message, http.StatusMethodNotAllowed)
-	log.Println(message)
-}
-
 // GetAppointments обрабатывает запросы на получение списка записей пациентов
 func GetAppointments(w http.ResponseWriter, r *http.Request) {
 	log.Printf("Request method: %s", r.Method)
@@ -57,4 +40,12 @@ func AddAppointment(w http.ResponseWriter, r *http.Request) {
 	}
 	log.Printf("%+v", appointment)
 	w.WriteHeader(http.StatusCreated)
+}
+
+func EditAppointment(w http.ResponseWriter, r *http.Request) {
+
+}
+
+func DeleteAppointment(w http.ResponseWriter, r *http.Request) {
+
 }
