@@ -9,7 +9,7 @@
 
 ## REST API
 
-### GET /api/medicalcard/appointment
+### GET /api/medicalcard/appointments
 
 Ответ: 200 OK
 ```json
@@ -22,10 +22,10 @@
         "diagnosis": "Стоматит", 
         "treatment": "Изолироватть пациента от аллергена"
 
-    }]
-```
+     }]
+ ```
 
-### POST /api/medicalcard/appointment
+### POST /api/medicalcard/appointments
 
 Тело запроса:
 
@@ -38,11 +38,11 @@
         "checkup": "Покраснения слизистой", 
         "diagnosis": "Стоматит", 
         "treatment": "Изолироватть пациента от аллергена"
-    }
+     }
 ```
-
+ 
     Ответ: 201 Created
-    Location: /api/medicalcard/appointment/1
+    Location: /api/medicalcard/appointments/1
 
 ### PUT /api/medicalcard/appointment
 Тело запроса:
@@ -56,12 +56,15 @@
         "checkup": "Покраснения слизистой", 
         "diagnosis": "Стоматит", 
         "treatment": "Изолироватть пациента от аллергена"
-    }
+     }
 ```
 
-    Ответ: 202 Accepted
-    Location: /api/medicalcard/appointment/1
+     Ответ: 202 Accepted
+     Location: /api/medicalcard/appointments/1
 
-### DELETE /api/medicalcard/appointment
+### DELETE /api/medicalcard/appointments
 
-    Ответ: 204 No Content
+    Ответ: 204 No Content   
+
+
+
