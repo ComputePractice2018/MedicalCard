@@ -1,10 +1,16 @@
 <template>
   <div class="medicalcard">
-    <h1>{{ title }}</h1>
+  <div class="jumbotron">
+  <h1 class="display-4">{{ title}}</h1>
+  <hr class="my-4">
+  <p>Добро пожаловать в личную медицинскую карту пациента. Здесь вы можете узнать всю информацию о проведенных приемах</p>
+</div>
+  
 
     <h3 v-if="error">Ошибка: {{error}}</h3>
 
-  <table cellspacing="15">
+  <table  class="table" >
+   <thead>
    <tr>
      <th>Имя</th>
      <th>Отчество</th>
@@ -15,6 +21,7 @@
      <th>Телефон</th>
      <th>Домашний адрес</th>
     </tr>
+    </thead>
     <tr v-for="information in personal_data" v-bind:key="information.passport">
       <td>{{ information.name }}</td>
       <td>{{ information.surname }}</td>
@@ -28,7 +35,8 @@
     <tr>
     </tr>
   </table>
-  <table cellspacing="15">
+  <table  class="table" >
+   <thead>
    <tr>
     <th> Дата приема</th>
      <th>ФИО Врача</th>
@@ -38,6 +46,8 @@
      <th>Диагноз</th>
      <th>Назначенное лечение</th>
     </tr>
+   </thead>
+   <tbody>
     <tr v-for="information in appointment" v-bind:key="information.diagnosis">
       <td>{{ information.date }}</td>
       <td>{{ information.docname }}</td>
@@ -46,29 +56,77 @@
       <td>{{ information.checkup }}</td>
       <td>{{ information.diagnosis}}</td>
       <td>{{ information.treatment }}</td>
-      <button v-on:click="edit_appointment(information)">Редактировать запись</button>
-      <button v-on:click="remove_appointment(information)">Удалить запись</button>
+      <td><b-button variant="warning" v-on:click="edit_appointment(information)">Редактировать запись</b-button></td>
+      <td><b-button variant="danger" v-on:click="remove_appointment(information)">Удалить запись</b-button></td>
 
     </tr>
     <tr>
     </tr>
+   </tbody>
   </table>
 
+<p></p>
+<p></p>
+<hr class="my-4">
 <h3 v-if="edit_index == -1">Новый прием</h3>
-  <form>
-    <p>Дата приема: <input type="text" v-model="new_appointment.date">
-    ФИО Врача: <input type="text" v-model="new_appointment.doc_name">
-    Фио Медсестры: <input type="text" v-model="new_appointment.muse_name">
-    <p></p>
-    Жалобы: <input type="text" v-model="new_appointment.complaint">
-    Результаты  осмотра: <input type="text" v-model="new_appointment.checkup">
-    <p></p>
-    Диагноз: <input type="text" v-model="new_appointment.diagnosis">
-    Назначенное лечение: <input type="text" v-model="new_appointment.treatment">
-  <p><button v-if="edit_index == -1" v-on:click="add_new_appointment">Добавить запись</button></p>
-  <p><button v-if="edit_index > -1" v-on:click="end_of_edition">Сохранить редактирование</button></p>
-
-  </form>
+ <hr class="my-4">
+ <b-card>
+<b-form>
+  <b-row class="my-1">
+    <b-col sm="2"><label for="input-small">Дата приема:</label></b-col>
+    <b-col sm="6">
+      <b-form-input type="date" v-model="new_appointment.date" required>
+         
+       </b-form-input>
+       </b-col>
+  </b-row>
+  <b-row class="my-1">
+    <b-col sm="2"><label for="input-small">ФИО Врача:</label></b-col>
+    <b-col sm="6">
+       <b-form-input v-model="new_appointment.docname" required>
+       </b-form-input>
+       </b-col>
+  </b-row>
+  <b-row class="my-1">
+    <b-col sm="2"><label for="input-large">ФИО медсестры:</label></b-col>
+    <b-col sm="6">
+       <b-form-input v-model="new_appointment.musename" required>
+       </b-form-input>
+       </b-col>
+  </b-row>
+  <b-row class="my-1">
+    <b-col sm="2"><label for="input-large">Жалобы:</label></b-col>
+    <b-col sm="6">
+       <b-form-input v-model="new_appointment.complaint" required>
+       </b-form-input>
+       </b-col>
+  </b-row>
+  <b-row class="my-1">
+    <b-col sm="2"><label for="input-large">Результаты осмотра:</label></b-col>
+    <b-col sm="6">
+       <b-form-input v-model="new_appointment.checkup" required>
+       </b-form-input>
+       </b-col>
+  </b-row>
+  <b-row class="my-1">
+    <b-col sm="2"><label for="input-large">Диагноз:</label></b-col>
+    <b-col sm="6">
+       <b-form-input v-model="new_appointment.diagnosis" required>
+       </b-form-input>
+       </b-col>
+  </b-row>
+  <b-row class="my-1">
+    <b-col sm="2"><label for="input-large">Назначенное лечение:</label></b-col>
+    <b-col sm="6">
+       <b-form-input v-model="new_appointment.treatment" required>
+       </b-form-input>
+       </b-col>
+  </b-row>
+  <p><button type="button" class="btn btn-outline-primary" v-if="edit_index == -1" v-on:click="add_new_appointment">Добавить запись</button></p>
+  <p><button type="button" class="btn btn-outline-primary" v-if="edit_index > -1" v-on:click="end_of_edition">Сохранить редактирование</button></p>
+</b-form>
+</b-card>
+ 
   </div>
 </template>
 
@@ -99,6 +157,7 @@ export default {
       appointment: [ ],
       new_appointment:
         {
+          'id': 0,
           'date': '',
           'docname': '',
           'musename': '',
@@ -131,7 +190,7 @@ export default {
       })
     },
     remove_appointment: function (item) {
-      const url = '/api/medicalcard/appointments' + this.appointment.indexOf(item)
+      const url = '/api/medicalcard/appointments' + this.id
       axios.delete(url).then(response => {
         this.appointment = response.data
       }).catch(response => {
@@ -143,11 +202,12 @@ export default {
       this.new_appointment = this.appointment[this.edit_index]
     },
     end_of_edition: function () {
-      const url = '/api/medicalcard/appointments' + this.edit_index
+      const url = '/api/medicalcard/appointments' + this.new_appointment.id
       axios.put(url, this.new_appointment).then(response => {
         console.log(response)
         this.edit_index = -1
         this.new_appointment = {
+          'id': 0,
           'date': '',
           'docname': '',
           'musename': '',
