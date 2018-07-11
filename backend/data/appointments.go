@@ -15,35 +15,50 @@ type Appointment struct {
 	Treatment string `json:"treatment"`
 }
 
-// appointments хранит список записей пациентов
-var appointments []Appointment
+// AppointmentList структура для списка записей пациентов
+type AppointmentList struct {
+	appointments []Appointment
+}
+
+// Editable интерфейс для работы со списком записей
+type Editable interface {
+	GetAppointments() []Appointment
+	AddAppointment(appointment Appointment) int
+	EditAppointment(appointment Appointment, id int) error
+	RemoveAppointment(id int) error
+}
+
+// NewAppointmentList конструктор списка записей
+func NewAppointmentList() *AppointmentList {
+	return &AppointmentList{}
+}
 
 // GetAppointments возвращает список приёмов
-func GetAppointments() []Appointment {
-	return appointments
+func (cl *AppointmentList) GetAppointments() []Appointment {
+	return cl.appointments
 }
 
 // AddAppointment добавляем приём в конец списка и возвращает id
-func AddAppointment(appointment Appointment) int {
-	id := len(appointments)
-	appointments = append(appointments, appointment)
+func (cl *AppointmentList) AddAppointment(appointment Appointment) int {
+	id := len(cl.appointments)
+	cl.appointments = append(cl.appointments, appointment)
 	return id
 }
 
 // EditAppointment изменяет приём с id на appointment
-func EditAppointment(appointment Appointment, id int) error {
-	if id < 0 || id >= len(appointments) {
+func (cl *AppointmentList) EditAppointment(appointment Appointment, id int) error {
+	if id < 0 || id >= len(cl.appointments) {
 		return fmt.Errorf("Incorrect ID")
 	}
-	appointments[id] = appointment
+	cl.appointments[id] = appointment
 	return nil
 }
 
 // RemoveAppointment удаляет приём по id
-func RemoveAppointment(id int) error {
-	if id < 0 || id >= len(appointments) {
+func (cl *AppointmentList) RemoveAppointment(id int) error {
+	if id < 0 || id >= len(cl.appointments) {
 		return fmt.Errorf("Incorrect ID")
 	}
-	appointments = append(appointments[:id], appointments[id+1:]...)
+	cl.appointments = append(cl.appointments[:id], cl.appointments[id+1:]...)
 	return nil
 }
