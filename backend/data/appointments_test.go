@@ -59,7 +59,7 @@ func TestRemoveAppointment(t *testing.T) {
 	cl.AddAppointment(testAppointments[0])
 	cl.AddAppointment(testAppointments[1])
 
-	err := cl.RemoveAppointment(0)
+	err := cl.RemoveAppointment(1)
 
 	if cl.GetAppointments()[0] != testAppointments[1] {
 		t.Errorf("RemoveAppointment in not working")

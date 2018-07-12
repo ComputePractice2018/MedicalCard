@@ -58,9 +58,10 @@ func (cl *AppointmentList) EditAppointment(appointment Appointment, id int) erro
 
 // RemoveAppointment удаляет приём по id
 func (cl *AppointmentList) RemoveAppointment(id int) error {
-	if id < 0 || id >= len(cl.appointments) {
+	if id < 1 || id > len(cl.appointments) {
 		return fmt.Errorf("Incorrect ID")
 	}
+	id--
 	cl.appointments = append(cl.appointments[:id], cl.appointments[id+1:]...)
 	return nil
 }
