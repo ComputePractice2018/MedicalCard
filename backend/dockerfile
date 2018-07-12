@@ -1,0 +1,20 @@
+FROM golang:alpine as builder 
+
+ENV SRC=/go/src/githab.com/ComputePractice2018/medicalcard/backend
+RUN mkdir -p '$(SRC)'
+ADD . ${SRC}
+
+RUN CGO_ENABLED=0 GOOS=linux  go build -a -installsuffix cgo -o /go/bin/medicalcard githab.com/ComputePractice2018/medicalcard/backend
+
+FROM alpine:3.7
+
+WORKDIR /opt
+COPY --from=builder /go/bin/medicalcard /opt/medicalcard
+
+EXPOSE 8080
+
+ENV NAME "Julia"
+ENTRYPOINT opt/medicalcard -name $(NAME) 
+
+
+

@@ -68,3 +68,12 @@
 
 
 
+## Как собрать и запустить
+
+Backend:
+
+***but
+cd backend
+docker build -f Dockerfile -t medicalcard:<имя ветки> .
+docker run --rm --name medicalcard -e NAME=<параметр приложения> medicalcard:<имя ветки> 
+***
