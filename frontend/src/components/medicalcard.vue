@@ -3,13 +3,13 @@
   <div class="jumbotron">
   <h1 class="display-4">{{ title}}</h1>
   <hr class="my-4">
-  <p>Добро пожаловать в личную медицинскую карту пациента. Здесь вы можете узнать всю информацию о проведенных приемах</p>
-</div>
-  
+  <p>Добро пожаловать в медицинскую карту пациента. Здесь вы можете узнать всю информацию о проведенных приемах</p>
+  <b-btn v-b-toggle="'collapse3'"  class="btn btn-outline-dark">Показать личные данные пациента</b-btn>
+  <b-btn  v-if="edit_index == -1" v-b-toggle="'collapse2'"  class="btn btn-outline-dark">Новый прием</b-btn>
 
-    <h3 v-if="error">Ошибка: {{error}}</h3>
-
-  <table  class="table" >
+  <b-collapse  id="collapse3" >
+    <b-card>
+      <table  class="table" >
    <thead>
    <tr>
      <th>Имя</th>
@@ -32,51 +32,20 @@
       <td>{{ information.phone}}</td>
       <td>{{ information.adress}}</td>
     </tr>
-    <tr>
-    </tr>
-  </table>
-  <table  class="table" >
-   <thead>
-   <tr>
-    <th> Дата приема</th>
-     <th>ФИО Врача</th>
-     <th>ФИО Медсестры</th>
-    <th>Жалобы</th>
-    <th>Результаты осмотра</th>
-     <th>Диагноз</th>
-     <th>Назначенное лечение</th>
-    </tr>
-   </thead>
-   <tbody>
-    <tr v-for="information in appointment" v-bind:key="information.diagnosis">
-      <td>{{ information.date }}</td>
-      <td>{{ information.docname }}</td>
-      <td>{{ information.musename }}</td>
-      <td>{{ information.complaint}}</td>
-      <td>{{ information.checkup }}</td>
-      <td>{{ information.diagnosis}}</td>
-      <td>{{ information.treatment }}</td>
-      <td><b-button variant="warning" v-on:click="edit_appointment(information)">Редактировать запись</b-button></td>
-      <td><b-button variant="danger" v-on:click="remove_appointment(information)">Удалить запись</b-button></td>
-
-    </tr>
-    <tr>
-    </tr>
-   </tbody>
-  </table>
-
-<p></p>
-<p></p>
+      </table>
+    </b-card>
+  </b-collapse>
+  <b-collapse  id="collapse2">
+    <b-card>
 <hr class="my-4">
 <h3 v-if="edit_index == -1">Новый прием</h3>
- <hr class="my-4">
+<hr class="my-4">
  <b-card>
 <b-form>
   <b-row class="my-1">
     <b-col sm="2"><label for="input-small">Дата приема:</label></b-col>
     <b-col sm="6">
       <b-form-input type="date" v-model="new_appointment.date" required>
-         
        </b-form-input>
        </b-col>
   </b-row>
@@ -122,11 +91,48 @@
        </b-form-input>
        </b-col>
   </b-row>
-  <p><button type="button" class="btn btn-outline-primary" v-if="edit_index == -1" v-on:click="add_new_appointment">Добавить запись</button></p>
-  <p><button type="button" class="btn btn-outline-primary" v-if="edit_index > -1" v-on:click="end_of_edition">Сохранить редактирование</button></p>
+  <p><button type="button" class="btn btn-outline-dark" v-if="edit_index == -1" v-on:click="add_new_appointment">Добавить запись</button></p>
+  <p><button type="button" class="btn btn-outline-dark" v-if="edit_index > -1" v-on:click="end_of_edition">Сохранить редактирование</button></p>
 </b-form>
 </b-card>
- 
+</b-card>
+  </b-collapse>
+</div>
+    <h3 v-if="error">Ошибка: {{error}}</h3>
+    <tr>
+    </tr>
+  <table  class="table">
+   <thead>
+   <tr>
+    <th> Дата приема</th>
+     <th>ФИО Врача</th>
+     <th>ФИО Медсестры</th>
+    <th>Жалобы</th>
+    <th>Результаты осмотра</th>
+     <th>Диагноз</th>
+     <th>Назначенное лечение</th>
+    </tr>
+   </thead>
+   <tbody>
+    <tr v-for="information in appointment" v-bind:key="information.diagnosis">
+      <td>{{ information.date }}</td>
+      <td>{{ information.docname }}</td>
+      <td>{{ information.musename }}</td>
+      <td>{{ information.complaint}}</td>
+      <td>{{ information.checkup }}</td>
+      <td>{{ information.diagnosis}}</td>
+      <td>{{ information.treatment }}</td>
+      <td><b-button type="button" class="btn btn-outline-warning" v-on:click="edit_appointment(information)">Редактировать запись</b-button></td>
+      <td><b-button type="button" class="btn btn-outline-danger" v-on:click="remove_appointment(information)">Удалить запись</b-button></td>
+    </tr>
+    <tr>
+    </tr>
+   </tbody>
+  </table>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
   </div>
 </template>
 
@@ -173,7 +179,7 @@ export default {
   },
   methods: {
     get_appointments: function () {
-      const url = '/api/medicalcard/appointments'
+      const url = '/api/medicalcard/appointment'
       axios.get(url).then(response => {
         this.appointment = response.data
       }).catch(response => {
@@ -181,7 +187,7 @@ export default {
       })
     },
     add_new_appointment: function () {
-      const url = '/api/medicalcard/appointments'
+      const url = '/api/medicalcard/appointment'
       axios.post(url, this.new_appointment).then(response => {
         console.log(response)
         this.appointment.push(this.new_appointment)
@@ -190,7 +196,7 @@ export default {
       })
     },
     remove_appointment: function (item) {
-      const url = '/api/medicalcard/appointments' + this.id
+      const url = '/api/medicalcard/appointment' + this.id
       axios.delete(url).then(response => {
         this.appointment = response.data
       }).catch(response => {
@@ -202,7 +208,7 @@ export default {
       this.new_appointment = this.appointment[this.edit_index]
     },
     end_of_edition: function () {
-      const url = '/api/medicalcard/appointments' + this.new_appointment.id
+      const url = '/api/medicalcard/appointment' + this.new_appointment.id
       axios.put(url, this.new_appointment).then(response => {
         console.log(response)
         this.edit_index = -1
