@@ -179,7 +179,7 @@ export default {
   },
   methods: {
     get_appointments: function () {
-      const url = '/api/medicalcard/appointment'
+      const url = '/api/medicalcard/appointments'
       axios.get(url).then(response => {
         this.appointment = response.data
       }).catch(response => {
@@ -187,7 +187,7 @@ export default {
       })
     },
     add_new_appointment: function () {
-      const url = '/api/medicalcard/appointment'
+      const url = '/api/medicalcard/appointments'
       axios.post(url, this.new_appointment).then(response => {
         console.log(response)
         this.appointment.push(this.new_appointment)
@@ -196,7 +196,7 @@ export default {
       })
     },
     remove_appointment: function (item) {
-      const url = '/api/medicalcard/appointment' + this.id
+      const url = '/api/medicalcard/appointments/' + this.id
       axios.delete(url).then(response => {
         this.appointment = response.data
       }).catch(response => {
@@ -208,7 +208,7 @@ export default {
       this.new_appointment = this.appointment[this.edit_index]
     },
     end_of_edition: function () {
-      const url = '/api/medicalcard/appointment' + this.new_appointment.id
+      const url = '/api/medicalcard/appointments/' + this.new_appointment.id
       axios.put(url, this.new_appointment).then(response => {
         console.log(response)
         this.edit_index = -1

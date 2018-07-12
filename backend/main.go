@@ -11,7 +11,7 @@ import (
 )
 
 func main() {
-	connection := flag.String("connection", "medicalcard:SuperSecretPassword@tcp(db:3306)/medicalcard", "mysql connection string")
+	connection := flag.String("connection", "root:@tcp(localhost:3306)/medicalcard", "mysql connection string")
 	flag.Parse()
 
 	appointmentList, err := data.NewDBAppointmentList(*connection)
