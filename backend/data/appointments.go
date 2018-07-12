@@ -6,6 +6,7 @@ import (
 
 // Appointment структура для хранения записи пациента
 type Appointment struct {
+	ID        int    `json:"id"`
 	Date      string `json:"date"`
 	DocName   string `json:"doc_name"`
 	MuseName  string `json:"muse_name"`
@@ -40,25 +41,27 @@ func (cl *AppointmentList) GetAppointments() []Appointment {
 
 // AddAppointment добавляем приём в конец списка и возвращает id
 func (cl *AppointmentList) AddAppointment(appointment Appointment) int {
-	id := len(cl.appointments)
+	id := len(cl.appointments) + 1
+	appointment.ID = id
 	cl.appointments = append(cl.appointments, appointment)
 	return id
 }
 
 // EditAppointment изменяет приём с id на appointment
 func (cl *AppointmentList) EditAppointment(appointment Appointment, id int) error {
-	if id < 0 || id >= len(cl.appointments) {
+	if id < 1 || id > len(cl.appointments) {
 		return fmt.Errorf("Incorrect ID")
 	}
-	cl.appointments[id] = appointment
+	cl.appointments[id-1] = appointment
 	return nil
 }
 
 // RemoveAppointment удаляет приём по id
 func (cl *AppointmentList) RemoveAppointment(id int) error {
-	if id < 0 || id >= len(cl.appointments) {
+	if id < 1 || id > len(cl.appointments) {
 		return fmt.Errorf("Incorrect ID")
 	}
+	id--
 	cl.appointments = append(cl.appointments[:id], cl.appointments[id+1:]...)
 	return nil
 }

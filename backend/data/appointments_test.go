@@ -4,6 +4,7 @@ import "testing"
 
 var testAppointments = []Appointment{
 	{
+		ID:        1,
 		Date:      "10.11.2005",
 		DocName:   "Иванов Иван Иванович",
 		MuseName:  "Петров Пётр Петрович",
@@ -13,6 +14,7 @@ var testAppointments = []Appointment{
 		Treatment: "Таблетки",
 	},
 	{
+		ID:        2,
 		Date:      "07.07.2007",
 		DocName:   "Сидоров Сидр Сидорович",
 		MuseName:  "Малахов Андрей Васильевич",
@@ -37,13 +39,13 @@ func TestEditAppointment(t *testing.T) {
 	cl := NewAppointmentList()
 	cl.AddAppointment(testAppointments[0])
 
-	err := cl.EditAppointment(testAppointments[1], 0)
+	err := cl.EditAppointment(testAppointments[1], 1)
 
 	if cl.GetAppointments()[0] != testAppointments[1] {
 		t.Errorf("EditAppointment in not working")
 	}
 	if err != nil {
-		t.Errorf("Unexpected EditAppointment error")
+		t.Errorf("Unexpected EditAppointment error: %+v", err)
 	}
 
 	err = cl.EditAppointment(testAppointments[1], -1)
@@ -57,7 +59,7 @@ func TestRemoveAppointment(t *testing.T) {
 	cl.AddAppointment(testAppointments[0])
 	cl.AddAppointment(testAppointments[1])
 
-	err := cl.RemoveAppointment(0)
+	err := cl.RemoveAppointment(1)
 
 	if cl.GetAppointments()[0] != testAppointments[1] {
 		t.Errorf("RemoveAppointment in not working")
