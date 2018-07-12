@@ -3,7 +3,7 @@
   <div class="jumbotron">
   <h1 class="display-4">{{ title}}</h1>
   <hr class="my-4">
-  <p>Добро пожаловать в медицинскую карту пациента. Здесь вы можете узнать всю информацию о проведенных приемах</p>
+  <p>Добро пожаловать в медицинскую карту пациента. Здесь вы можете узнать всю информацию о приемах</p>
   <b-btn v-b-toggle="'collapse3'"  class="btn btn-outline-dark">Показать личные данные пациента</b-btn>
   <b-btn  v-if="edit_index == -1" v-b-toggle="'collapse2'"  class="btn btn-outline-dark">Новый прием</b-btn>
 
