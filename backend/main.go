@@ -7,6 +7,7 @@ import (
 
 	"github.com/ComputePractice2018/medicalcard/backend/data"
 	"github.com/ComputePractice2018/medicalcard/backend/server"
+	_ "github.com/jinzhu/gorm/dialects/mysql"
 )
 
 func main() {
