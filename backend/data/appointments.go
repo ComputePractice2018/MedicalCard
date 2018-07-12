@@ -41,7 +41,7 @@ func (cl *AppointmentList) GetAppointments() []Appointment {
 
 // AddAppointment добавляем приём в конец списка и возвращает id
 func (cl *AppointmentList) AddAppointment(appointment Appointment) int {
-	id := len(cl.appointments)
+	id := len(cl.appointments) + 1
 	appointment.ID = id
 	cl.appointments = append(cl.appointments, appointment)
 	return id
@@ -49,10 +49,10 @@ func (cl *AppointmentList) AddAppointment(appointment Appointment) int {
 
 // EditAppointment изменяет приём с id на appointment
 func (cl *AppointmentList) EditAppointment(appointment Appointment, id int) error {
-	if id < 0 || id >= len(cl.appointments) {
+	if id < 1 || id > len(cl.appointments) {
 		return fmt.Errorf("Incorrect ID")
 	}
-	cl.appointments[id] = appointment
+	cl.appointments[id-1] = appointment
 	return nil
 }
 
@@ -62,10 +62,5 @@ func (cl *AppointmentList) RemoveAppointment(id int) error {
 		return fmt.Errorf("Incorrect ID")
 	}
 	cl.appointments = append(cl.appointments[:id], cl.appointments[id+1:]...)
-
-	for i, appointment := range cl.appointments {
-		appointment.ID = i
-	}
-
 	return nil
 }
