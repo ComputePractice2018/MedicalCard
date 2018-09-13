@@ -22,5 +22,5 @@ COPY --from=builder /go/bin/medicalcard /opt/medicalcard
 
 EXPOSE 8080
 
-ENV NAME "Julia"
-ENTRYPOINT /go/bin/medicalcard -name ${NAME}
+ENV DATE "01.07.2018"
+ENTRYPOINT /go/bin/medicalcard -date ${DATE}
