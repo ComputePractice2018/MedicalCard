@@ -66,5 +66,13 @@
 
     Ответ: 204 No Content   
 
+## Как собрать и запустить
+
+'''bat
+cd backend
+docker build -f Dockerfile -t medicalcard:<имя ветки> .
+docker run --rm --date medicalcard -e DATE=<параметр приложения> medicalcard:<имя ветки>
+'''
+
 
 
